@@ -9,7 +9,7 @@ const PayloadHandeler = require('./handlers/payload-handeler');
 const config = require('../config');
 const watcher = require('./handlers/delivery-handeler');
 
-const fb = new Fb(config.token, config.messengerAPI, watcher);
+const fb = new Fb(config.token, config, watcher);
 const payloadHandeler = new PayloadHandeler(config.payloadMap, config.payloadSeparator);
 
 module.exports = (req, res) => {
