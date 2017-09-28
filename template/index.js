@@ -1,4 +1,4 @@
 module.exports = {
-	welcomeMessage: `Bonjour, bienvenue`,
+	welcomeMessage: `Bonjour {{userName}}, bienvenue.`,
 	helpMessage: `help`
 }

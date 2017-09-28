@@ -2,12 +2,12 @@ module.exports = class {
 	constructor(map, separator) {
 		this.map = map;
 		this.separator = separator;
-		this.commande;
+		this.commande = {};
 	}
 
 	receive(payloadString) {
 		const raw = payloadString.split(this.separator);
-		this.raw.forEach((item, index) => {
+		raw.forEach((item, index) => {
 			this.commande[this.map[index]] = item;
 		});
 	}

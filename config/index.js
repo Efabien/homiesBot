@@ -6,6 +6,6 @@ module.exports = {
 	restifeoBaseUrl: process.env.RESTIFEO,
 	restifeoAuthToken : process.env.RESTIFEO_AUTH_TOKEN,
 	accessAPI: process.env.ACCESS_API,
-	payloadMap: ['type', 'action', 'league', 'subaction', 'id'],
+	payloadMap: ['type', 'action', 'subaction', 'param', 'id'],
 	payloadSeparator: '_'
 }

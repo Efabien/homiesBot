@@ -1,4 +1,4 @@
-module.exports = (fb, sender, data, payloadHandeler, res) => {
+module.exports = (fb, user, data, payloadHandeler, res) => {
 	payloadHandeler.receive(data.payload);
   const commande = payloadHandeler.getCommande();
 }
