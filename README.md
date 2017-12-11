@@ -1,1 +1,1 @@
-# a proposition written in nodejs for facebook messenger bot
+# facebook messenger bot around the fun of sharing skate sesh
