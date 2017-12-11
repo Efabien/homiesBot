@@ -1,6 +1,6 @@
-const util=require('util');
-const events=require('events');
-const EventEmitter=events.EventEmitter;
+const util = require('util');
+const events = require('events');
+const EventEmitter = events.EventEmitter;
 
 const Watcher = class {
 	capture(input) {
