@@ -1,34 +1,32 @@
-// filter texte messages, postback and quick reply events
-
-const textMessageHandler = require('./handlers/text-message-handler');
 const postBackHandler = require('./handlers/post-back-handler');
 const quickReply = require('./handlers/quick-reply-handler');
 
 const Fb = require('./fb');
 const PayloadHandeler = require('./handlers/payload-handeler');
+
+const TextMessage = require('./handlers/text-message');
+
 const config = require('../config');
+const template = require('../template');
 const watcher = require('./handlers/delivery-handeler');
 
-const fb = new Fb(config.token, config, watcher);
+const fb = new Fb(config, watcher);
 const payloadHandeler = new PayloadHandeler(config.payloadMap, config.payloadSeparator);
+
+const textMessage = new TextMessage(fb, template);
 
 module.exports = (req, res) => {
   const input = req.body.entry[0].messaging;
-  for(let i = 0; i<input.length; i++){
-    const event = input[i];
+  input.forEach(event => {
     const sender = event.sender.id;
-    fb.getUser(sender, ['first_name', 'last_name', 'locale', 'timezone', 'gender'])
-    .then(user => {
       if (event.message && event.message.text && !event.message.quick_reply) {        
-        textMessageHandler(fb, user, event.message.text, res); 
+        textMessage.handle(sender, event.message.text, res); 
       } else if (event.postback) {
-        postBackHandler(fb, user, event.postback, payloadHandeler, res);
+        postBackHandler(sender, event.postback, payloadHandeler, res);
       } else if (event.message && event.message.quick_reply) {
-        quickReply(fb, user, event.message.quick_reply, payloadHandeler, res);
+        quickReply(sender, event.message.quick_reply, payloadHandeler, res);
       } else if (event.delivery) {
         watcher.capture(event.delivery);
-      }
-    });
-    
-  }
+      }   
+  });
 }

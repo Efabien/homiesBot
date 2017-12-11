@@ -2,8 +2,8 @@ const request=require('request-promise');
 const tool=require('./tool');
 
 module.exports = class Fb {
-  constructor(token, config, watcher) {
-    this._token = token;
+  constructor(config, watcher) {
+    this._token = config.token;
     this._messagingUrl = config.messengerAPI;
     this._graphAPI = config.graphAPI;
     this._watcher = watcher;
