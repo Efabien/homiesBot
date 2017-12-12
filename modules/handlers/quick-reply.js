@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 const templateCompiler = require('../templateCompiler');
 
 module.exports = class {
-	constructor(fb, payloadHandeler, template) {
+	constructor(fb, payloadHandler, template) {
 		this._fb = fb;
 		this._payloadHandler = payloadHandler;
 		this._template = template;
