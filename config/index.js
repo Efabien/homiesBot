@@ -7,5 +7,6 @@ module.exports = {
 	homiesApiBaseUrl: process.env.HOMIES_API,
 	accessAPI: process.env.ACCESS_API,
 	payloadMap: ['type', 'action', 'subaction', 'param', 'id'],
-	payloadSeparator: '_'
+	payloadSeparator: '_',
+	stringMaxLength: 640
 }

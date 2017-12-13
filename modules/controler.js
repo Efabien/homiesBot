@@ -2,7 +2,9 @@ const config = require('../config');
 const template = require('../template');
 
 const Fb = require('./fb');
+const DataBuilder = require('./fbDataBuilder');
 const PayloadHandler = require('./handlers/payload-handler');
+const TemplateCompiler = require('./templateCompiler');
 const watcher = require('./handlers/delivery-handler');
 
 const TextMessage = require('./handlers/text-message');
@@ -12,12 +14,14 @@ const QuickReply = require('./handlers/quick-reply');
 const HomiesClient = require('./api-call/homies');
 
 const fb = new Fb(config, watcher);
+const dataBuilder = new DataBuilder();
 const payloadHandler = new PayloadHandler(config.payloadMap, config.payloadSeparator);
+const compiler = new TemplateCompiler(config.stringMaxLength);
 
 const homiesClient = new HomiesClient(config);
 
 const textMessage = new TextMessage(fb, template);
-const postback = new PostBack(fb, payloadHandler, homiesClient, template);
+const postback = new PostBack({ fb, dataBuilder }, payloadHandler, homiesClient, { template, compiler });
 const quickReply = new QuickReply(fb, payloadHandler, template);
 
 

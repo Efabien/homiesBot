@@ -1,12 +1,13 @@
 const Promise = require('bluebird');
-const templateCompiler = require('../templateCompiler');
 
 module.exports = class {
-	constructor(fb, payloadHandler, homiesClient, template) {
-		this._fb = fb;
+	constructor(fbModule, payloadHandler, homiesClient, templateModule) {
+		this._fb = fbModule.fb;
+		this._dataBuilder = fbModule.dataBuilder;
 		this._payloadHandler = payloadHandler;
 		this._homiesClient = homiesClient;
-		this._template = template;
+		this._template = templateModule.template;
+		this._compiler = templateModule.compiler;
 
 		this.handle = Promise.coroutine(this.handle.bind(this));
 	}
@@ -19,7 +20,8 @@ module.exports = class {
 			const fbInfo = yield this._fb.getUser(senderId, projection);
 			fbInfo.fbId = senderId;
 			const user = yield this._homiesClient.createUser(fbInfo);
-			this._fb.sendText(senderId, `Hello ${user.first_name}`);
+			const dataTosend = this._compiler.execute(this._template.welcomeMessage, { userName: user.first_name });
+			this._fb.sendBatch(senderId, dataTosend);
 		}
 		res.sendStatus(200);
 	}
