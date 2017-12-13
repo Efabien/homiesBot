@@ -5,6 +5,7 @@ const Fb = require('./fb');
 const DataBuilder = require('./fbDataBuilder');
 const PayloadHandler = require('./handlers/payload-handler');
 const TemplateCompiler = require('./templateCompiler');
+const Actions = require('./actions.js');
 const watcher = require('./handlers/delivery-handler');
 
 const TextMessage = require('./handlers/text-message');
@@ -17,12 +18,13 @@ const fb = new Fb(config, watcher);
 const dataBuilder = new DataBuilder();
 const payloadHandler = new PayloadHandler(config.payloadMap, config.payloadSeparator);
 const compiler = new TemplateCompiler(config.stringMaxLength);
+const actions = new Actions({ fb, dataBuilder }, { template, compiler });
 
 const homiesClient = new HomiesClient(config);
 
-const textMessage = new TextMessage(fb, template);
-const postback = new PostBack({ fb, dataBuilder }, payloadHandler, homiesClient, { template, compiler });
-const quickReply = new QuickReply({ fb, dataBuilder }, payloadHandler, { template, compiler });
+const textMessage = new TextMessage(actions);
+const postback = new PostBack(payloadHandler, homiesClient, actions);
+const quickReply = new QuickReply(payloadHandler, actions);
 
 
 module.exports = (req, res) => {
