@@ -21,6 +21,8 @@ module.exports = class {
 			fbInfo.fbId = senderId;
 			const user = yield this._homiesClient.createUser(fbInfo);
 			const dataTosend = this._compiler.execute(this._template.welcomeMessage, { userName: user.first_name });
+			const tipsButton = this._dataBuilder.quickReplyButtons('How to use me: ', [{ title: 'Tips' , payload: 'TIPS_'}]);
+			dataTosend.push(tipsButton);
 			this._fb.sendBatch(senderId, dataTosend);
 		}
 		res.sendStatus(200);

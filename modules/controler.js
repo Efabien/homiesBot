@@ -22,7 +22,7 @@ const homiesClient = new HomiesClient(config);
 
 const textMessage = new TextMessage(fb, template);
 const postback = new PostBack({ fb, dataBuilder }, payloadHandler, homiesClient, { template, compiler });
-const quickReply = new QuickReply(fb, payloadHandler, template);
+const quickReply = new QuickReply({ fb, dataBuilder }, payloadHandler, { template, compiler });
 
 
 module.exports = (req, res) => {
@@ -34,7 +34,7 @@ module.exports = (req, res) => {
       } else if (event.postback) {
         postback.handle(sender, event.postback, res);
       } else if (event.message && event.message.quick_reply) {
-        quickReply.handle(sender, event.message.quick_reply, payloadHandler, res);
+        quickReply.handle(sender, event.message.quick_reply, res);
       } else if (event.delivery) {
         watcher.capture(event.delivery);
       }   

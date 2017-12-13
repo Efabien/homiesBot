@@ -5,7 +5,7 @@ module.exports = class {
 		this._splitEachMaxLength = this._splitEachMaxLength.bind(this);
 	}
 
-	_replacePlaceHolder(text, params) {
+	_replacePlaceHolder(text, params = {}) {
 		for (const key in params) {
 			let pattern = new RegExp(`{{${key}}}`, 'g');
 			text = text.replace(pattern, params[key]);
